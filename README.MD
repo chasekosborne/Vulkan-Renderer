@@ -20,9 +20,9 @@ Vulkan renderer built from Khronos Group [tutorial](https://vulkan-tutorial.com/
 
 ### Windows (Command Prompt):
 ```cmd
-setx GLFW_DIR "C:\CLibraries\glfw-3.4.bin.WIN64"
-setx GLM_DIR "C:\CLibraries\glm"
-setx VULKAN_SDK "C:\VulkanSDK\1.3.290.0"
+setx GLFW_DIR "/path/to/glfw"
+setx GLM_DIR "/path/to/glm"
+setx VULKAN_SDK "/path/to/vulkan-sdk"
 ```
 
 ### Linux/MacOS
