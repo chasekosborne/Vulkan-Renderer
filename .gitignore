@@ -1,0 +1,54 @@
+# VSCode specific settings and configurations
+.vscode/
+.vscode/**
+
+# CMake generated files and build directories
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+
+# Logs and databases
+*.log
+*.db
+
+# Temporary files and caches
+*.tmp
+*.swp
+*.bak
+*.swo
+
+# MinGW specific files
+*.o
+*.obj
+*.exe
+*.dll
+*.lib
+*.pdb
+*.exp
+
+# MacOS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
+Desktop.ini
+
+# Backup files
+*.old
+*.orig
+*.save
+*.backup
+
+# IDE specific files (other than VSCode)
+.idea/
+*.iml
+
+# Environment files
+*.env
+*.local
+
+# Git specific files
+*.lock
