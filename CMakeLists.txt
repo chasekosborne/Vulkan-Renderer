@@ -29,7 +29,7 @@ elseif (UNIX)
     link_directories(${VULKAN_SDK}/lib)
 endif()
 
-add_executable(VulkanRenderer main.cpp)
+add_executable(VulkanRenderer src/main.cpp)
 
 # Link libraries
 if (WIN32)
