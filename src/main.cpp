@@ -46,13 +46,17 @@ namespace Renderer {
 
             // Neccessary memory cleanup (as per C/C++)
             void cleanup() {
+                vkDestroyInstance(instance, nullptr);
+
                 glfwDestroyWindow(window);
 
                 glfwTerminate();
             }
 
+
+
             void createInstance() {
-                // Important Application Info
+                // Application Info
                 VkApplicationInfo appInfo{};
                 appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
                 appInfo.pApplicationName = "Vulkan Renderer";
@@ -73,8 +77,12 @@ namespace Renderer {
 
                 createInfo.enabledExtensionCount = glfwExtensionCount;
                 createInfo.ppEnabledExtensionNames = glfwExtensions;
-
                 createInfo.enabledLayerCount = 0;
+
+                VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
+                if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
+                    throw std::runtime_error("failed to create instance!");
+                }
             }
 
     };
