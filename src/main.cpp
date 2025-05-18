@@ -124,8 +124,14 @@ namespace Renderer {
 
                 createInfo.enabledExtensionCount = glfwExtensionCount;
                 createInfo.ppEnabledExtensionNames = glfwExtensions;
-                createInfo.enabledLayerCount = 0;
-
+                // Enables layers based on debug mode
+                if (enableValidationLayers) {
+                    createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+                    createInfo.ppEnabledLayerNames = validationLayers.data();
+                }
+                else {
+                    createInfo.enabledLayerCount = 0;
+                }
                 VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
                 if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
                     throw std::runtime_error("failed to create instance!");
