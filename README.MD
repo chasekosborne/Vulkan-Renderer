@@ -9,7 +9,7 @@ Vulkan renderer built from Khronos Group [tutorial](https://vulkan-tutorial.com/
 3. **Vulkan SDK** (version 1.3.290.0 or higher)
 4. **GLFW** (version 3.4 or higher)
 5. **GLM** (any recent version)
-6. **C++ Compiler:**
+6. **C++ Compiler:** (C++17 or higher)
    - **Windows:** MinGW (g++), Visual Studio (cl.exe)
    - **Linux:** g++
    - **Mac:** clang++

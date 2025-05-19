@@ -1,5 +1,3 @@
-
-
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 //#include <vulkan/vulkan.h>
@@ -9,6 +7,7 @@
 #include <cstdlib>
 #include <string.h>
 #include <vector>
+#include <optional>
 
 namespace Renderer {
 
@@ -28,6 +27,13 @@ namespace Renderer {
         }
     }
 
+    struct QueueFamilyIndices {
+        std::optional<uint32_t> graphicsFamily;
+
+        bool isComplete() {
+            return graphicsFamily.has_value();
+        }
+    };
 
     class Application {
         public:
@@ -43,6 +49,7 @@ namespace Renderer {
             VkInstance instance;
             VkDebugUtilsMessengerEXT debugMessenger;
             VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+            VkDevice device;
 
             // Window Dimensions
             const uint32_t WIDTH = 800;
@@ -73,6 +80,18 @@ namespace Renderer {
                 createInstance();
                 setupDebugMessenger();
                 pickPhysicalDevice();
+                createLogicalDevice();
+            }
+
+            void createLogicalDevice() {
+                QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
+
+                VkDeviceQueueCreateInfo queueCreateInfo{};
+                queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+                queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
+                queueCreateInfo.queueCount = 1;
+                float queuePriority = 1.0f;
+                queueCreateInfo.pQueuePriorities = &queuePriority;
             }
 
             void pickPhysicalDevice() {
@@ -97,9 +116,38 @@ namespace Renderer {
                 }
             }
 
+            // Currently just set to true for simplicity
+            // Would like to add in support for specifying the GPU used in the software
             bool isDeviceSuitable(VkPhysicalDevice device) {
-                return true;
+                QueueFamilyIndices indices = findQueueFamilies(device);
+
+                return indices.isComplete();
             }
+
+            QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device) {
+                QueueFamilyIndices indices;
+
+                uint32_t queueFamilyCount = 0;
+                vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+
+                std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+                vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+                int i = 0;
+                for (const auto& queueFamily : queueFamilies) {
+                    if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+                        indices.graphicsFamily = i;
+                    }
+                        if (indices.isComplete()) {
+                        break;
+                    }
+
+                    i++;
+                }
+
+                return indices;
+            }
+
 
             // Checking for exit
             void mainLoop() {
